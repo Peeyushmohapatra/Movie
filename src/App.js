@@ -1,65 +1,54 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
-import Header from "./Header";
-import Movie from "./Movie";
-import Search from "./Search";
+import Recipe from "./Component/Recipe/Recipe";
 
+function App() {
+  const [first, setfirst] = useState("");
+  const [button, updateButton] = useState(false);
+  const [data, updateData] = useState("");
 
-const MOVIE_API_URL = "https://www.omdbapi.com/?s=man&apikey=4a3b711b"; // you should replace this with yours
+  useEffect(() => {
+    getData(first);
+  }, [button]);
 
+  async function getData(data) {
+    const fetchedData = await fetch(
+      `https://www.edamam.com/api/recipes/v2?type=public&q=${data}&app_id=28bede44&app_key=582edc1a66fc03ad4cc37a25e4e10540`
+    );
+    const toText = await fetchedData.text();
+    const toJson = JSON.parse(toText);
+    // console.log(toJson);
+    updateData(toJson.hits);
+    // console.log(toJson.hits[0].recipe.image);
+  }
 
-const App = () => {
-  const [loading, setLoading] = useState(true);
-  const [movies, setMovies] = useState([]);
-  const [errorMessage, setErrorMessage] = useState(null);
-
-    useEffect(() => {
-    fetch(MOVIE_API_URL)
-      .then(response => response.json())
-      .then(jsonResponse => {
-        setMovies(jsonResponse.Search);
-        console.log(movies,"HEfs");
-        setLoading(false);
-      });
-  }, []);
-
-    const search = searchValue => {
-    setLoading(true);
-    setErrorMessage(null);
-
-    fetch(`https://www.omdbapi.com/?s=${searchValue}&apikey=4a3b711b`)
-      .then(response => response.json())
-      .then(jsonResponse => {
-        if (jsonResponse.Response === "True") {
-          setMovies(jsonResponse.Search);
-          setLoading(false);
-        } else {
-          setErrorMessage(jsonResponse.Error);
-          setLoading(false);
-        }
-      });
-  	};
-
-    
-    return (
-     <div className="App">
-      <Header text="HOOKED" />
-      <Search search={search} />
-      <p className="App-intro">Sharing a few of our favourite movies</p>
-      <div className="movies">
-        {loading && !errorMessage ? (
-         <span>loading...</span>
-         ) : errorMessage ? (
-          <div className="errorMessage">{errorMessage}</div>
-        ) : (
-          movies.map((movie, index) => (
-            <Movie key={`${index}-${movie.Title}`} movie={movie} />
-          ))
-        )}
+  
+  return (
+    <div className="App">
+      <h1 style={{textAlign:"center",color:"rgb(255, 204, 194)"}}>Find Something To Cook!!!!</h1>
+      <div className="inputContainer">
+      <input className="input"
+        onChange={(e) => {
+          setfirst(e.target.value);
+        }}
+        type="text"
+      />
+      <button
+        onClick={() => {
+          if(first === ""){
+            alert("Box should contains some data")
+          }
+          updateButton(!button);
+        }}
+      >
+        ClickMe
+      </button>
       </div>
+      
+      
+      <Recipe data={data}/>
     </div>
   );
-};
-
+}
 
 export default App;
