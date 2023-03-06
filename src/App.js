@@ -6,7 +6,6 @@ function App() {
   const [first, setfirst] = useState("");
   const [button, updateButton] = useState(false);
   const [data, updateData] = useState("");
-
   useEffect(() => {
     getData(first);
   }, [button]);
@@ -22,31 +21,32 @@ function App() {
     // console.log(toJson.hits[0].recipe.image);
   }
 
-  
   return (
     <div className="App">
-      <h1 style={{textAlign:"center",color:"rgb(255, 204, 194)"}}>Find Something To Cook!!!!</h1>
+      <h1 style={{ textAlign: "center", color: "rgb(255, 204, 194)" }}>
+        Find Something To Cook!!!!
+      </h1>
       <div className="inputContainer">
-      <input className="input"
-        onChange={(e) => {
-          setfirst(e.target.value);
-        }}
-        type="text"
-      />
-      <button
-        onClick={() => {
-          if(first === ""){
-            alert("Box should contains some data")
-          }
-          updateButton(!button);
-        }}
-      >
-        ClickMe
-      </button>
+        <input
+          className="input"
+          onChange={(e) => {
+            setfirst(e.target.value);
+          }}
+          type="text"
+        />
+        <button
+          onClick={() => {
+            if (first === "") {
+              alert("Box should contains some data");
+            }
+            updateButton(!button);
+          }}
+        >
+          ClickMe
+        </button>
       </div>
-      
-      
-      <Recipe data={data}/>
+
+      <Recipe data={data} />
     </div>
   );
 }
