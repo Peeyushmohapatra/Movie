@@ -17,7 +17,7 @@ const Recipe = ({ data }) => {
                 {ele.recipe.ingredients.map((val) => {
                   return (
                     <div className="ingredientsContainer">
-                      <h6 style={{ color: "white" }}>{val.text}</h6>
+                      <h6 style={{ color: "white",textAlign:"center" }}>{val.text}</h6>
                     </div>
                   );
                 })}
