@@ -11,7 +11,7 @@ const Recipe = ({ data }) => {
             <div className="recipeContainer">
               <img src={ele.recipe.image} alt="" />
               <div className="ingredients">
-                <h4 style={{color:"orange"}}>Ingrediests:</h4>
+                <h4 style={{color:"orange"}}>Ingredients:</h4>
 
                 {console.log(ele.recipe)}
                 {ele.recipe.ingredients.map((val) => {
